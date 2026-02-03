@@ -26,14 +26,14 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
-    
+
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
-    
+
     // Google OAuth Routes
     Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
     Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
-    
+
     // Password Reset Routes
     Route::get('/forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
     Route::post('/forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -44,11 +44,11 @@ Route::middleware('guest')->group(function () {
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-    
+
     // Notes Routes
-    Route::resource('notes', NoteController::class);
     Route::get('/notes/search', [NoteController::class, 'search'])->name('notes.search');
-    
+    Route::resource('notes', NoteController::class);
+
     // Admin Routes
     Route::middleware('admin')->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
